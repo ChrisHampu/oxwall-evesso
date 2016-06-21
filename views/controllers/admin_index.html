@@ -1,0 +1,33 @@
+{form name='EVESSO_AccessForm'}
+
+{block_decorator name='box' addClass='ow_stdmargin' type="empty"}
+    <p>
+    Create an application on the <a href="https://developers.eveonline.com/applications">EVE Developer page</a> and fill in the information below.
+    </p>
+{/block_decorator}
+<table class="ow_table_1 ow_form">
+    <tr class="ow_tr_first">
+        <th class="ow_name ow_txtleft" colspan="3">
+            <span class="ow_section_icon ow_ic_key">Configure EVE SSO</span>
+        </th>
+    </tr>
+    <tr class="{cycle name="install" values="ow_alt1,ow_alt2"}">
+        <td class="ow_label">EVE API Client ID</td>
+        <td class="ow_value">{input name='appId'} {error name='appId'}</td>
+        <td class="ow_desc"></td>
+    </tr>
+    <tr class="{cycle name="install" values="ow_alt1,ow_alt2"} ow_tr_last">
+        <td class="ow_label">EVE API Secret</td>
+        <td class="ow_value">{input name='appKey'} {error name='appKey'}</td>
+        <td class="ow_desc"></td>
+    </tr>
+    <tr class="{cycle name="install" values="ow_alt1,ow_alt2"} ow_tr_last">
+        <td class="ow_label">EVE API Redirect URL</td>
+        <td class="ow_value">{input name='callback_url'} {error name='callback_url'}</td>
+        <td class="ow_desc"></td>
+    </tr>
+
+</table>
+<div class="clearfix ow_submit"><div class="ow_right">{submit name='save' class='ow_ic_save'}</div><div class="ow_right"></div></div>
+
+{/form}

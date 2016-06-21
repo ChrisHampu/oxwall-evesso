@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<plugin>
+  <name>EVE SSO</name>
+  <key>evesso</key>
+  <description>EVE SSO integration</description>
+    <author>Christopher Hampu</author>
+    <authorEmail>chrishampu@outlook.com</authorEmail>
+  <authorUrl>http://www.champu.me</authorUrl>
+  <developerKey>953c44e2458d57cf75596e672d7d89c5</developerKey>
+    <build>1</build>
+    <copyright>(C) 2016 Christopher Hampu</copyright>
+  <license>The MIT License</license>
+    <licenseUrl>https://opensource.org/licenses/MIT</licenseUrl>
+</plugin>

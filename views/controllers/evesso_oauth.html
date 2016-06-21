@@ -1,0 +1,25 @@
+{form name='EVESSO_OauthForm'}
+
+{block_decorator name='box' addClass='ow_stdmargin' type="empty"}
+    <p>
+    Because this is your first time signing in with EVE, you'll need to fill in some info below.
+    </p>
+{/block_decorator}
+<table class="ow_table_1 ow_form">
+    <tr class="ow_tr_first">
+        <td class="ow_label">
+            {label name='email'}
+        </td>
+        <td class="ow_value">
+            {input name='email'}
+            <div style="height:1px;"></div>
+            {error name='email'}
+        </td>
+        <td class="ow_desc">
+        </td>
+    </tr>
+
+</table>
+<div class="clearfix ow_submit"><div class="ow_right">{submit name='save' class='ow_ic_save'}</div><div class="ow_right"></div></div>
+
+{/form}
