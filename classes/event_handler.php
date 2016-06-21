@@ -153,7 +153,6 @@ class EVESSO_CLASS_EventHandler
   {
     OW::getEventManager()->bind(BASE_CMP_ConnectButtonList::HOOK_REMOTE_AUTH_BUTTON_LIST, array($this, "onCollectButtonList"));
     OW::getEventManager()->bind(OW_EventManager::ON_USER_REGISTER, array($this, "afterUserRegistered"));
-    OW::getEventManager()->bind(OW_EventManager::ON_USER_EDIT, array($this, "afterUserSynchronized"));
     
     OW::getEventManager()->bind('base.members_only_exceptions', array($this, "onCollectAccessExceptions"));
     OW::getEventManager()->bind('base.password_protected_exceptions', array($this, "onCollectAccessExceptions"));
@@ -168,7 +167,5 @@ class EVESSO_CLASS_EventHandler
   public function init()
   {
     $this->genericInit();
-    
-    OW::getEventManager()->bind('admin.add_admin_notification', array($this, "afterUserSynchronized"));
   }
 }
