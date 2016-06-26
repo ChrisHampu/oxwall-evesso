@@ -19,7 +19,7 @@
  * OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
-$questions = BOL_QuestionService::getInstance()->findQuestionByNameList(array('corporation', 'alliance'));
+$questions = BOL_QuestionService::getInstance()->findQuestionByNameList(array('corporation', 'alliance', 'charactername', 'evelinks'));
 
 foreach ( $questions as $key => $value )
 {

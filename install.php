@@ -51,6 +51,8 @@ foreach ( $accountTypes as $key => $value )
   $accountTypeList[] = $value->name;
 }
 
+// TODO: The rest of this can be turned into a simple loop
+
 if ( empty(BOL_QuestionService::getInstance()->findQuestionByName('corporation')) )
 {
   $corp_question = new BOL_Question();
@@ -58,8 +60,9 @@ if ( empty(BOL_QuestionService::getInstance()->findQuestionByName('corporation')
   $corp_question->sectionName = 'EVE';
   $corp_question->type = 'text';
   $corp_question->presentation = 'text';
-  $corp_question->sortOrder = 0;
+  $corp_question->sortOrder = 1;
   $corp_question->onView = 1;
+  $corp_question->onSearch = 1;
 
   BOL_QuestionService::getInstance()->createQuestion( $corp_question, 'corporation');
 }
@@ -71,8 +74,9 @@ if ( empty(BOL_QuestionService::getInstance()->findQuestionByName('alliance')) )
   $alliance_question->sectionName = 'EVE';
   $alliance_question->type = 'text';
   $alliance_question->presentation = 'text';
-  $alliance_question->sortOrder = 1;
+  $alliance_question->sortOrder = 2;
   $alliance_question->onView = 1;
+  $alliance_question->onSearch = 1;
   
   BOL_QuestionService::getInstance()->createQuestion( $alliance_question, 'alliance');
 }
@@ -84,15 +88,29 @@ if ( empty(BOL_QuestionService::getInstance()->findQuestionByName('charactername
   $charname_question->sectionName = 'EVE';
   $charname_question->type = 'text';
   $charname_question->presentation = 'text';
-  $charname_question->sortOrder = 2;
+  $charname_question->sortOrder = 0;
   $charname_question->onView = 1;
   
   BOL_QuestionService::getInstance()->createQuestion( $charname_question, 'charactername');
 }
 
+if ( empty(BOL_QuestionService::getInstance()->findQuestionByName('evelinks')) )
+{
+  $evelinks_question = new BOL_Question();
+  $evelinks_question->name = 'evelinks';
+  $evelinks_question->sectionName = 'EVE';
+  $evelinks_question->type = 'text';
+  $evelinks_question->presentation = 'text';
+  $evelinks_question->sortOrder = 3;
+  $evelinks_question->onView = 1;
+  
+  BOL_QuestionService::getInstance()->createQuestion( $evelinks_question, 'evelinks');
+}
+
 BOL_QuestionService::getInstance()->addQuestionToAccountType('corporation', $accountTypeList);
 BOL_QuestionService::getInstance()->addQuestionToAccountType('alliance', $accountTypeList);
 BOL_QuestionService::getInstance()->addQuestionToAccountType('charactername', $accountTypeList);
+BOL_QuestionService::getInstance()->addQuestionToAccountType('evelinks', $accountTypeList);
 
 BOL_LanguageService::getInstance()->addValue(
   OW::getLanguage()->getCurrentId(),

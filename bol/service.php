@@ -37,4 +37,30 @@ class EVESSO_BOL_Service extends EVESSO_BOL_ServiceBase
   {
     parent::__construct();
   }
+
+  public function saveQuestionData($user, $oxwallID)
+  {
+    $charID = $user['CharacterID'];
+    $charName = $user['CharacterName'];
+
+    $characterSheet = $this->getEVE()->getXMLCharacterInfo($charID);
+
+    if ( empty($characterSheet) || empty($characterSheet->result) )
+    {
+      return;
+    }
+
+    $corporation = (string) $characterSheet->result->corporation;
+    $alliance = (string) $characterSheet->result->alliance;
+
+    $questions = array(
+      'charactername' => $charName,
+      'alliance' => $alliance,
+      'corporation' => $corporation,
+      'realname' => $user['CharacterName'],
+      'evelinks' => implode(',', array((string)$charID, $charName))
+    );
+
+    BOL_QuestionService::getInstance()->saveQuestionsData($questions, $oxwallID);
+  }
 }

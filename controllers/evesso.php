@@ -67,6 +67,8 @@ class EVESSO_CTRL_Evesso extends OW_ActionController
 
       if ( $authResult->isValid() )
       {
+        $this->service->saveQuestionData($user, OW::getUser()->getId());
+
         OW::getFeedback()->info('You have successfully logged in with your EVE Online account');
       }
       else
@@ -160,7 +162,7 @@ class EVESSO_OauthForm extends Form
     if (empty($user) || !isset($user['CharacterName']) || !isset($user['CharacterID']))
     {
       OW::getFeedback()->error('Failed to get character info');
-      throw new Exception(print_r($user));
+
       return false;
     }
 
@@ -183,17 +185,6 @@ class EVESSO_OauthForm extends Form
     }
 
     $charID = $user['CharacterID'];
-
-    $characterSheet = $this->service->getEVE()->getXMLCharacterInfo($charID);
-
-    if ( empty($characterSheet) || empty($characterSheet->result) )
-    {
-      OW::getFeedback()->error('Failed to get character info from EVE');
-      return false;
-    }
-
-    $corporation = (string) $characterSheet->result->corporation;
-    $alliance = (string) $characterSheet->result->alliance;
 
     $username = trim('eve_' . implode('_', explode(' ', $user['CharacterName'])));
 
@@ -234,15 +225,8 @@ class EVESSO_OauthForm extends Form
       return false;
     }
     
-    $questions = array(
-      'charactername' => $user['CharacterName'],
-      'alliance' => $alliance,
-      'corporation' => $corporation,
-      'realname' => $user['CharacterName']
-    );
-
+    $this->service->saveQuestionData($user, $oxUser->id);
     BOL_AvatarService::getInstance()->setUserAvatar($oxUser->id, $picture, array('isModerable' => false, 'trackAction' => false ));
-    BOL_QuestionService::getInstance()->saveQuestionsData($questions, $oxUser->id);
 
     $authAdapter->register($oxUser->id);
 

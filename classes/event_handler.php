@@ -103,6 +103,9 @@ class EVESSO_CLASS_EventHandler
       case "charactername":
         $data = "Character Name";
         break;
+      case "evelinks":
+        $data = "Links";
+        break;
     }
 
     $event->setData($data);
@@ -110,6 +113,71 @@ class EVESSO_CLASS_EventHandler
     return $data;
   }
   
+  public function onCollectQuestionFieldValue( OW_Event $event )
+  {
+    $params = $event->getParams();
+
+    $data = null;
+
+    if ( empty($params['fieldName']) || empty($params['value']) )
+    {
+      $event->setData($data);
+      return $data;
+    }
+
+    switch ($params['fieldName'])
+    {
+      case "corporation":
+      {
+        $data = '<form id="MainSearchForm" method="post" action="/users/search" name="MainSearchForm">' .
+                '<input name="form_name" type="hidden" value="MainSearchForm">' .
+                '<input name="csrf_token" type="hidden" value="' . UTIL_Csrf::generateToken() . '">' .
+                '<input name="corporation" type="hidden" value="' . $params['value'] . '">' .
+                '<input name="MainSearchFormSubmit" type="hidden" value="Search">' .
+                '<a href="javascript:;" onclick="parentNode.submit();">' . $params['value'] . '</a>' .
+                '</form>';
+      }
+      break;
+
+      case "alliance":
+      {
+        $data = '<form id="MainSearchForm" method="post" action="/users/search" name="MainSearchForm">' .
+                '<input name="form_name" type="hidden" value="MainSearchForm">' .
+                '<input name="csrf_token" type="hidden" value="' . UTIL_Csrf::generateToken() . '">' .
+                '<input name="alliance" type="hidden" value="' . $params['value'] . '">' .
+                '<input name="MainSearchFormSubmit" type="hidden" value="Search">' .
+                '<a href="javascript:;" onclick="parentNode.submit();">' . $params['value'] . '</a>' .
+                '</form>';
+      }
+      break;
+
+      case "evelinks":
+      {
+        $charData = explode(',', $params['value']);
+
+        if (count($charData) !== 2)
+        {
+          break;
+        }
+
+        $charID = $charData[0];
+        $charName = $charData[1];
+
+        $data = '<a href="http://zkillboard.com/character/'. $charID .'/">ZKillboard</a><br>' .
+                    '<a href="http://eveboard.com/pilot/' . implode('_', explode(' ', $charName)) . '/">EVE-Board</a><br>' .
+                    '<a href="http://eve-search.com/author/' . $charName . '/">EVE-Search</a><br>' .
+                    '<a href="http://gate.eveonline.com/Profile/'. $charName .'/">EVE-Gate</a><br>' .
+                    '<a href="http://evewho.com/pilot/'. $charName .'/">EVEWho</a><br>' .
+                    '<a href="http://eve-hunt.net/huntid/'. $charID . '/">EVE-Hunt</a>';
+      }
+      break;
+    }
+
+    $event->setData($data);
+
+    return $data;
+  }
+
   public function getConfiguration( OW_Event $event )
   {
     $service = EVESSO_BOL_Service::getInstance();
@@ -159,6 +227,7 @@ class EVESSO_CLASS_EventHandler
     OW::getEventManager()->bind('base.splash_screen_exceptions', array($this, "onCollectAccessExceptions"));
     
     OW::getEventManager()->bind('base.questions_field_get_label', array($this, "onCollectQuestionFieldLabel"));
+    OW::getEventManager()->bind('base.questions_field_get_value', array($this, "onCollectQuestionFieldValue"));
 
     OW::getEventManager()->bind('evesso.get_configuration', array($this, "getConfiguration"));
     OW::getEventManager()->bind(OW_EventManager::ON_AFTER_USER_COMPLETE_PROFILE, array($this, "onAfterUserCompleteProfile"));
